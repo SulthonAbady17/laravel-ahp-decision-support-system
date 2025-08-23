@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class RegisteredUserController extends Controller
 {
+    public function create()
+    {
+        return view('auth.register');
+    }
+
     public function store(RegisterRequest $request, CreateNewUser $creator)
     {
         $user = $creator->create($request->toDto());

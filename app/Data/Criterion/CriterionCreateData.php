@@ -2,7 +2,7 @@
 
 namespace App\Data\Criterion;
 
-class CreateCriterionData
+class CriterionCreateData
 {
     public function __construct(
         public readonly string $name,

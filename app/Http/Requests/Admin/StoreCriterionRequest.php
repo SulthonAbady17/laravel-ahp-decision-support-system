@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
-use App\Data\Criterion\CreateCriterionData;
+use App\Data\Criterion\CriterionCreateData;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreCriterionRequest extends FormRequest
@@ -28,9 +28,9 @@ class StoreCriterionRequest extends FormRequest
         ];
     }
 
-    public function toDto(): CreateCriterionData
+    public function toDto(): CriterionCreateData
     {
-        return new CreateCriterionData(
+        return new CriterionCreateData(
             name: $this->validated('name'),
             description: $this->validated('description'),
         );

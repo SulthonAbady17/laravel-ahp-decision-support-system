@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
-use App\Data\Criterion\UpdateCriterionData;
+use App\Data\Criterion\CriterionUpdateData;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -29,9 +29,9 @@ class UpdateCriterionRequest extends FormRequest
         ];
     }
 
-    public function toDto(): UpdateCriterionData
+    public function toDto(): CriterionUpdateData
     {
-        return new UpdateCriterionData(
+        return new CriterionUpdateData(
             name: $this->validated('name'),
             description: $this->validated('description'),
         );

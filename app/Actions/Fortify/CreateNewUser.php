@@ -11,7 +11,7 @@ class CreateNewUser
     /**
      * Membuat pengguna yang baru terdaftar dengan data yang sudah divalidasi.
      *
-     * @param  array<string, string>  $input Data yang sudah divalidasi oleh RegisterRequest.
+     * @param  array<string, string>  $input  Data yang sudah divalidasi oleh RegisterRequest.
      */
     public function create(RegisterUserData $data): User
     {

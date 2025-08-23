@@ -30,7 +30,7 @@ Route::middleware('guest')->group(function () {
 
 // Grup untuk semua route yang memerlukan login
 Route::middleware('auth')->group(function () { // Ini akan kita aktifkan nanti
-    Route::post('/logout', [AuthenticatedSessionController::class, 'logout'])->name('logout');
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
     // Route untuk profil pengguna
     Route::get('/profile', fn() => view('profile.edit'))->name('profile.edit');

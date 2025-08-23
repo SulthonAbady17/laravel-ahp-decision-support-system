@@ -3,19 +3,6 @@
 @section('title', 'Register')
 
 @section('content')
-    {{-- Menampilkan error validasi jika ada --}}
-    @if ($errors->any())
-        <div class="mb-4">
-            <x-alert intent="danger" title="Error">
-                <ul class="list-inside list-disc">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </x-alert>
-        </div>
-    @endif
-
     <form action="{{ route('register') }}" method="POST">
         @csrf
 
@@ -50,10 +37,7 @@
         </div>
 
         <p class="text-on-surface dark:text-on-surface-dark mt-6 text-center text-sm">
-            Sudah punya akun?
-            <x-link :route="'login'">
-                Login di sini
-            </x-link>
+            Sudah punya akun? <x-link :route="'login'">Login di sini</x-link>
         </p>
     </form>
 @endsection

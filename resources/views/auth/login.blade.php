@@ -3,14 +3,6 @@
 @section('title', 'Login')
 
 @section('content')
-    @if ($errors->any())
-        <div class="mb-4">
-            <x-alert intent="danger" title="Error">
-                {{ $errors->first() }}
-            </x-alert>
-        </div>
-    @endif
-
     <form action="{{ route('login') }}" method="POST">
         @csrf
 
@@ -27,13 +19,7 @@
         </div>
 
         <div class="mt-4 flex items-center justify-between">
-            <x-form.checkbox id="remember_me" labelPosition="right" label="Ingat saya" name="remember" />
-
-            @if (Route::has('password.request'))
-                <x-link :route="'password.request'">
-                    Lupa password?
-                </x-link>
-            @endif
+            <x-form.checkbox id="remember" labelPosition="right" label="Ingat saya" name="remember" />
         </div>
 
         <div class="mt-6 flex items-center justify-end">
@@ -43,10 +29,7 @@
         </div>
 
         <p class="text-on-surface dark:text-on-surface-dark mt-6 text-center text-sm">
-            Belum punya akun?
-            <x-link :route="'register'">
-                Daftar di sini
-            </x-link>
+            Belum punya akun? <x-link :route="'register'">Daftar di sini</x-link>
         </p>
     </form>
 @endsection

@@ -25,7 +25,7 @@
                 <p class="text-on-surface-strong dark:text-on-surface-dark-strong text-3xl font-bold">5</p>
                 <p class="text-on-surface dark:text-on-surface-dark">Total Kriteria</p>
                 <x-slot name="footer">
-                    <x-link href="#">
+                    <x-link :route="'admin.criteria.index'">
                         Kelola Kriteria &rarr;
                     </x-link>
                 </x-slot>

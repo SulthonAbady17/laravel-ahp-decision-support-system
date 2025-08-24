@@ -4,14 +4,15 @@
 
 @section('content')
     <x-page-content>
-        <x-card>
-            <x-slot name="header">
-                <h2 class="text-on-surface-strong dark:text-on-surface-dark-strong text-xl font-semibold leading-tight">
-                    Tambah Kriteria Baru
-                </h2>
-            </x-slot>
+        <form action="{{ route('admin.criteria.store') }}" method="POST">
+            @csrf
+            <x-card>
+                <x-slot name="header">
+                    <h2 class="text-on-surface-strong dark:text-on-surface-dark-strong text-xl font-semibold leading-tight">
+                        Tambah Kriteria Baru
+                    </h2>
+                </x-slot>
 
-            <form action="#" method="POST">
                 <div class="space-y-4">
                     {{-- Nama Kriteria --}}
                     <div class="flex flex-col gap-1">
@@ -30,11 +31,11 @@
 
                 <x-slot name="footer">
                     <div class="flex items-center justify-end">
-                        <x-button-link href="#" variant="outline">Batal</x-button-link>
+                        <x-button-link :route="'admin.criteria.index'" variant="outline">Batal</x-button-link>
                         <x-form.button class="ml-4">Simpan Kriteria</x-form.button>
                     </div>
                 </x-slot>
-            </form>
-        </x-card>
+            </x-card>
+        </form>
     </x-page-content>
 @endsection

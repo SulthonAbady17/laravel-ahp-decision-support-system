@@ -10,50 +10,59 @@
                     <h2 class="text-on-surface-strong dark:text-on-surface-dark-strong text-xl font-semibold leading-tight">
                         Daftar Kriteria Penilaian
                     </h2>
-                    <x-button-link href="#">
+                    <x-button-link :route="'admin.criteria.create'">
                         Tambah Kriteria Baru
                     </x-button-link>
                 </div>
             </x-slot>
 
+            {{-- Menampilkan pesan sukses setelah create/update/delete --}}
+            @if (session('success'))
+                <x-alert intent="success">
+                    {{ session('success') }}
+                </x-alert>
+            @endif
+
             <x-table>
                 <x-slot name="head">
-                    <th class="p-4" scope="col">Nama Kriteria</th>
-                    <th class="p-4" scope="col">Deskripsi</th>
-                    <th class="p-4 text-right" scope="col">Aksi</th>
+                    <th class="p-4 text-center" scope="col">Nama Kriteria</th>
+                    <th class="p-4 text-center" scope="col">Deskripsi</th>
+                    <th class="p-4 text-center" scope="col">Aksi</th>
                 </x-slot>
 
                 <x-slot name="body">
-                    {{-- Contoh Data Statis 1 --}}
-                    <tr class="hover:bg-surface-alt/50 dark:hover:bg-surface-dark-alt/50">
-                        <th class="text-on-surface-strong dark:text-on-surface-dark-strong p-4 font-medium" scope="row">
-                            Kemampuan Komunikasi
-                        </th>
-                        <td class="p-4">
-                            Kemampuan kandidat dalam menyampaikan ide dan gagasan.
-                        </td>
-                        <td class="p-4 text-right">
-                            <x-link href="#">Edit</x-link>
-                            <span class="text-outline dark:text-outline-dark mx-1">|</span>
-                            {{-- Tombol ini bisa membuka modal konfirmasi --}}
-                            <x-link href="#" intent="danger">Hapus</x-link>
-                        </td>
-                    </tr>
-
-                    {{-- Contoh Data Statis 2 --}}
-                    <tr class="hover:bg-surface-alt/50 dark:hover:bg-surface-dark-alt/50">
-                        <th class="text-on-surface-strong dark:text-on-surface-dark-strong p-4 font-medium" scope="row">
-                            Kontribusi Organisasi
-                        </th>
-                        <td class="p-4">
-                            Seberapa besar kontribusi kandidat selama di organisasi.
-                        </td>
-                        <td class="p-4 text-right">
-                            <x-link href="#">Edit</x-link>
-                            <span class="text-outline dark:text-outline-dark mx-1">|</span>
-                            <x-link href="#" intent="danger">Hapus</x-link>
-                        </td>
-                    </tr>
+                    @forelse ($criteria as $criterion)
+                        <tr class="hover:bg-surface-alt/50 dark:hover:bg-surface-dark-alt/50">
+                            <th class="text-on-surface-strong dark:text-on-surface-dark-strong p-4 font-medium"
+                                scope="row">
+                                {{ $criterion->name }}
+                            </th>
+                            <td class="@if (!$criterion->description) text-center @endif p-4">
+                                {{ $criterion->description ?? '-' }}
+                            </td>
+                            <td class="p-4 text-center">
+                                <x-link :route="['admin.criteria.edit', $criterion->id]">Edit</x-link>
+                                <span class="text-outline dark:text-outline-dark mx-1">|</span>
+                                <form action="{{ route('admin.criteria.destroy', $criterion->id) }}" class="inline"
+                                    method="POST"
+                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus kriteria ini?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button
+                                        class="text-danger dark:text-danger font-medium underline-offset-2 hover:underline focus:underline focus:outline-none"
+                                        type="submit">
+                                        Hapus
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td class="p-4 text-center" colspan="3">
+                                Belum ada data kriteria.
+                            </td>
+                        </tr>
+                    @endforelse
                 </x-slot>
             </x-table>
 

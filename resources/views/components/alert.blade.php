@@ -51,7 +51,7 @@
         x-transition:leave="transition ease-in duration-300"
         x-transition:leave-start="opacity-100 scale-100"
         x-transition:leave-end="opacity-0 scale-90" @endif
-    class="bg-surface text-on-surface dark:bg-surface-dark dark:text-on-surface-dark {{ $currentIntent['border'] }} relative w-full overflow-hidden rounded-md border"
+    class="bg-surface text-on-surface dark:bg-surface-dark dark:text-on-surface-dark {{ $currentIntent['border'] }} relative mb-4 w-full overflow-hidden rounded-md border"
     role="alert">
     <div class="{{ $currentIntent['bg'] }} flex w-full items-start gap-2 p-4">
 

@@ -1,6 +1,6 @@
 @props([
-    'variant' => 'solid', // Opsi: 'solid', 'outline'
-    'size' => 'md', // Opsi: sm, md, lg, xl
+    'variant' => 'solid',
+    'size' => 'md',
     'href' => null,
     'route' => null,
     'disabled' => false,
@@ -8,7 +8,7 @@
 
 @php
     // Tentukan URL. Prioritaskan 'route' jika ada, jika tidak, gunakan 'href'.
-    $url = $route ? route($route) : $href;
+    $url = $route ? route(...is_array($route) ? $route : [$route]) : $href;
 
     // Kelas dasar yang dimiliki semua tombol
     $baseClasses =

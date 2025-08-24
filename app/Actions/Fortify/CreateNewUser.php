@@ -2,7 +2,7 @@
 
 namespace App\Actions\Fortify;
 
-use App\Data\User\RegisterUserData;
+use App\Data\User\UserRegisterData;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -13,7 +13,7 @@ class CreateNewUser
      *
      * @param  array<string, string>  $input  Data yang sudah divalidasi oleh RegisterRequest.
      */
-    public function create(RegisterUserData $data): User
+    public function create(UserRegisterData $data): User
     {
         return User::create([
             'name' => $data->name,

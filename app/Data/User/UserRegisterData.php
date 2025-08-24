@@ -2,7 +2,7 @@
 
 namespace App\Data\User;
 
-class RegisterUserData
+class UserRegisterData
 {
     public function __construct(
         public readonly string $name,

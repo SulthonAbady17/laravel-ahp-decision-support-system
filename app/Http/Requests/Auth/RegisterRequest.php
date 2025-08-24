@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
-use App\Data\User\RegisterUserData;
+use App\Data\User\UserRegisterData;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
@@ -30,9 +30,9 @@ class RegisterRequest extends FormRequest
         ];
     }
 
-    public function toDto(): RegisterUserData
+    public function toDto(): UserRegisterData
     {
-        return new RegisterUserData(
+        return new UserRegisterData(
             name: $this->input('name'),
             email: $this->input('email'),
             password: $this->input('password'),

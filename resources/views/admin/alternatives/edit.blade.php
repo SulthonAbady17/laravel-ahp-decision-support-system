@@ -4,13 +4,13 @@
 
 @section('content')
     <x-page-content>
-        <form action="{{ route('admin.alternatives.update') }}" method="POST">
+        <form action="{{ route('admin.alternatives.update', $alternative->id) }}" method="POST">
             @csrf
             @method('PUT')
             <x-card>
                 <x-slot name="header">
                     <h2 class="text-on-surface-strong dark:text-on-surface-dark-strong text-xl font-semibold leading-tight">
-                        Edit Alternatif: John Doe
+                        Edit Alternatif: {{ $alternative->name }}
                     </h2>
                 </x-slot>
 
@@ -30,7 +30,8 @@
 
                 <x-slot name="footer">
                     <div class="flex items-center justify-end">
-                        <x-button-link href="#" variant="outline">Batal</x-button-link>
+                        <x-button-link href="{{ route('admin.alternatives.index') }}"
+                            variant="outline">Batal</x-button-link>
                         <x-form.button class="ml-4">Update Alternatif</x-form.button>
                     </div>
                 </x-slot>

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Data\Period\PeriodEditData;
+use App\Data\Period\PeriodViewData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StorePeriodRequest;
 use App\Http\Requests\Admin\UpdatePeriodRequest;
@@ -22,7 +24,7 @@ class PeriodController extends Controller
     {
         $periods = $this->periodRepository->getAllForIndex();
 
-        return view('admin.period.index', compact('periods'));
+        return view('admin.periods.index', compact('periods'));
     }
 
     /**
@@ -30,7 +32,7 @@ class PeriodController extends Controller
      */
     public function create()
     {
-        return view('admin.period.create');
+        return view('admin.periods.create');
     }
 
     /**
@@ -48,7 +50,11 @@ class PeriodController extends Controller
      */
     public function edit(Period $period)
     {
-        return view('admin.period.edit', compact('period'));
+        $periodData = PeriodEditData::fromModel($period);
+
+        // dd($periodData);
+
+        return view('admin.periods.edit', ['period' => $periodData]);
     }
 
     /**

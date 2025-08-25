@@ -13,46 +13,47 @@
     @endphp
 
     <x-page-content>
-        <x-card>
-            <x-slot name="header">
-                <h2 class="text-on-surface-strong dark:text-on-surface-dark-strong text-xl font-semibold leading-tight">
-                    Edit Periode: Pemilihan Ketua Umum 2025
-                </h2>
-            </x-slot>
+        <form action="{{ route('admin.periods.update', $period->id) }}" method="POST">
+            @csrf
+            @method('PUT')
+            <x-card>
+                <x-slot name="header">
+                    <h2 class="text-on-surface-strong dark:text-on-surface-dark-strong text-xl font-semibold leading-tight">
+                        Edit Periode: {{ $period->name }}
+                    </h2>
+                </x-slot>
 
-            <form action="#" method="POST">
                 <div class="space-y-4">
                     <div class="flex flex-col gap-1">
                         <x-form.label for="name" value="Nama Periode" />
-                        <x-form.input id="name" name="name" required type="text"
-                            value="Pemilihan Ketua Umum 2025" />
+                        <x-form.input :value="old('name', $period->name)" id="name" name="name" required type="text" />
                     </div>
 
                     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div class="flex flex-col gap-1">
                             <x-form.label for="start_date" value="Tanggal Mulai" />
-                            <x-form.input id="start_date" name="start_date" type="date" value="2025-09-01" />
+                            {{-- Mengambil tanggal dari DTO yang belum diformat --}}
+                            <x-form.input :value="old('start_date', $period->start_date)" id="start_date" name="start_date" type="datetime-local" />
                         </div>
                         <div class="flex flex-col gap-1">
                             <x-form.label for="end_date" value="Tanggal Selesai" />
-                            <x-form.input id="end_date" name="end_date" type="date" value="2025-09-15" />
+                            <x-form.input :value="old('end_date', $period->end_date)" id="end_date" name="end_date" type="datetime-local" />
                         </div>
                     </div>
 
                     <div class="flex flex-col gap-1">
                         <x-form.label for="status" value="Status" />
-                        {{-- Atribut value ditambahkan untuk mengisi nilai awal combobox --}}
-                        <x-form.combobox :options="$statusOptions" id="status" name="status" value="active" />
+                        <x-form.combobox :options="$statusOptions" :value="old('status', $period->status)" id="status" name="status" />
                     </div>
                 </div>
 
                 <x-slot name="footer">
                     <div class="flex items-center justify-end">
-                        <x-button-link href="#" variant="outline">Batal</x-button-link>
+                        <x-button-link :route="'admin.periods.index'" variant="outline">Batal</x-button-link>
                         <x-form.button class="ml-4">Update Periode</x-form.button>
                     </div>
                 </x-slot>
-            </form>
-        </x-card>
+            </x-card>
+        </form>
     </x-page-content>
 @endsection

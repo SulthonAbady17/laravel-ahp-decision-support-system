@@ -55,7 +55,7 @@
                 <p class="text-on-surface-strong dark:text-on-surface-dark-strong text-3xl font-bold">2</p>
                 <p class="text-on-surface dark:text-on-surface-dark">Total Periode Seleksi</p>
                 <x-slot name="footer">
-                    <x-link href="#">
+                    <x-link href="{{ route('admin.periods.index') }}">
                         Kelola Periode &rarr;
                     </x-link>
                 </x-slot>

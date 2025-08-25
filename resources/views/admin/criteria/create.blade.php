@@ -17,15 +17,17 @@
                     {{-- Nama Kriteria --}}
                     <div class="flex flex-col gap-1">
                         <x-form.label for="name" value="Nama Kriteria" />
-                        <x-form.input autofocus id="name" name="name" placeholder="Contoh: Kemampuan Komunikasi"
-                            required type="text" />
+                        <x-form.input :value="old('name')" autofocus id="name" name="name"
+                            placeholder="Contoh: Kemampuan Komunikasi" required type="text" />
                     </div>
 
                     {{-- Deskripsi --}}
                     <div class="flex flex-col gap-1">
                         <x-form.label for="description" value="Deskripsi" />
                         <x-form.textarea id="description" name="description"
-                            placeholder="Jelaskan kriteria secara singkat..." rows="3"></x-form.textarea>
+                            placeholder="Jelaskan kriteria secara singkat..." rows="3">
+                            {{ old('details') }}
+                        </x-form.textarea>
                     </div>
                 </div>
 

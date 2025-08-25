@@ -30,7 +30,8 @@
 
                 <x-slot name="footer">
                     <div class="flex items-center justify-end">
-                        <x-button-link href="#" variant="outline">Batal</x-button-link>
+                        <x-button-link href="{{ route('admin.alternatives.index') }}"
+                            variant="outline">Batal</x-button-link>
                         <x-form.button class="ml-4">Simpan Alternatif</x-form.button>
                     </div>
                 </x-slot>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AlternativeController;
 use App\Http\Controllers\Admin\CriterionController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
@@ -55,9 +56,7 @@ Route::middleware('auth')->group(function () { // Ini akan kita aktifkan nanti
         Route::resource('criteria', CriterionController::class);
 
         // CRUD Alternatif
-        Route::get('/alternatives', fn() => view('admin.alternatives.index'))->name('alternatives.index');
-        Route::get('/alternatives/create', fn() => view('admin.alternatives.create'))->name('alternatives.create');
-        Route::get('/alternatives/{id}/edit', fn() => view('admin.alternatives.edit'))->name('alternatives.edit');
+        Route::resource('alternatives', AlternativeController::class);
 
         // CRUD Periode
         Route::get('/periods', fn() => view('admin.periods.index'))->name('periods.index');

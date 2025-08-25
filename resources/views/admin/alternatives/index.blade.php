@@ -10,11 +10,17 @@
                     <h2 class="text-on-surface-strong dark:text-on-surface-dark-strong text-xl font-semibold leading-tight">
                         Daftar Alternatif (Kandidat)
                     </h2>
-                    <x-button-link href="#">
+                    <x-button-link :route="'admin.alternatives.create'">
                         Tambah Alternatif Baru
                     </x-button-link>
                 </div>
             </x-slot>
+
+            @if (session('success'))
+                <x-alert class="mb-4" intent="success">
+                    {{ session('success') }}
+                </x-alert>
+            @endif
 
             <x-table>
                 <x-slot name="head">
@@ -24,35 +30,38 @@
                 </x-slot>
 
                 <x-slot name="body">
-                    {{-- Contoh Data Statis 1 --}}
-                    <tr class="hover:bg-surface-alt/50 dark:hover:bg-surface-dark-alt/50">
-                        <th class="text-on-surface-strong dark:text-on-surface-dark-strong p-4 font-medium" scope="row">
-                            John Doe
-                        </th>
-                        <td class="p-4">
-                            Visi: Memajukan paduan suara ke tingkat internasional.
-                        </td>
-                        <td class="p-4 text-right">
-                            <x-link href="#">Edit</x-link>
-                            <span class="text-outline dark:text-outline-dark mx-1">|</span>
-                            <x-link href="#" intent="danger">Hapus</x-link>
-                        </td>
-                    </tr>
-
-                    {{-- Contoh Data Statis 2 --}}
-                    <tr class="hover:bg-surface-alt/50 dark:hover:bg-surface-dark-alt/50">
-                        <th class="text-on-surface-strong dark:text-on-surface-dark-strong p-4 font-medium" scope="row">
-                            Jane Smith
-                        </th>
-                        <td class="p-4">
-                            Misi: Meningkatkan kualitas vokal dan kebersamaan anggota.
-                        </td>
-                        <td class="p-4 text-right">
-                            <x-link href="#">Edit</x-link>
-                            <span class="text-outline dark:text-outline-dark mx-1">|</span>
-                            <x-link href="#" intent="danger">Hapus</x-link>
-                        </td>
-                    </tr>
+                    @forelse ($alternatives as $alternative)
+                        <tr class="hover:bg-surface-alt/50 dark:hover:bg-surface-dark-alt/50">
+                            <th class="text-on-surface-strong dark:text-on-surface-dark-strong p-4 font-medium"
+                                scope="row">
+                                {{ $alternative->name }}
+                            </th>
+                            <td class="p-4">
+                                {{ Str::limit($alternative->details, 70) ?? '-' }}
+                            </td>
+                            <td class="p-4 text-right">
+                                <x-link :route="['admin.alternatives.edit', $alternative->id]">Edit</x-link>
+                                <span class="text-outline dark:text-outline-dark mx-1">|</span>
+                                <form action="{{ route('admin.alternatives.destroy', $alternative->id) }}" class="inline"
+                                    method="POST"
+                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus alternatif ini?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button
+                                        class="text-danger dark:text-danger font-medium underline-offset-2 hover:underline focus:underline focus:outline-none"
+                                        type="submit">
+                                        Hapus
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td class="p-4 text-center" colspan="3">
+                                Belum ada data alternatif.
+                            </td>
+                        </tr>
+                    @endforelse
                 </x-slot>
             </x-table>
 

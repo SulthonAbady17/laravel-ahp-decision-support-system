@@ -40,7 +40,7 @@
                 <p class="text-on-surface-strong dark:text-on-surface-dark-strong text-3xl font-bold">4</p>
                 <p class="text-on-surface dark:text-on-surface-dark">Total Kandidat</p>
                 <x-slot name="footer">
-                    <x-link href="#">
+                    <x-link href="{{ route('admin.alternatives.index') }}">
                         Kelola Alternatif &rarr;
                     </x-link>
                 </x-slot>

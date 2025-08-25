@@ -32,8 +32,8 @@ class UpdateAlternativeRequest extends FormRequest
     public function toDto(): AlternativeCreateData
     {
         return new AlternativeCreateData(
-            name: $this->input('name'),
-            details: $this->input('details'),
+            name: $this->validated('name'),
+            details: $this->validated('details'),
         );
     }
 }

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AlternativeController;
 use App\Http\Controllers\Admin\CriterionController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PeriodController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Auth;
@@ -64,9 +65,7 @@ Route::middleware('auth')->group(function () { // Ini akan kita aktifkan nanti
         Route::resource('periods', PeriodController::class);
 
         // CRUD User
-        Route::get('/users', fn() => view('admin.users.index'))->name('users.index');
-        Route::get('/users/create', fn() => view('admin.users.create'))->name('users.create');
-        Route::get('/users/{id}/edit', fn() => view('admin.users.edit'))->name('users.edit');
+        Route::resource('users', UserController::class);
     });
 
     // ==================

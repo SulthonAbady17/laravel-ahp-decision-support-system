@@ -22,7 +22,9 @@
                         Manajemen Kriteria
                     </h3>
                 </x-slot>
-                <p class="text-on-surface-strong dark:text-on-surface-dark-strong text-3xl font-bold">5</p>
+                <p class="text-on-surface-strong dark:text-on-surface-dark-strong text-3xl font-bold">
+                    {{ $dashboardData->criteriaCount }}
+                </p>
                 <p class="text-on-surface dark:text-on-surface-dark">Total Kriteria</p>
                 <x-slot name="footer">
                     <x-link :route="'admin.criteria.index'">
@@ -37,7 +39,9 @@
                         Manajemen Alternatif
                     </h3>
                 </x-slot>
-                <p class="text-on-surface-strong dark:text-on-surface-dark-strong text-3xl font-bold">4</p>
+                <p class="text-on-surface-strong dark:text-on-surface-dark-strong text-3xl font-bold">
+                    {{ $dashboardData->alternativesCount }}
+                </p>
                 <p class="text-on-surface dark:text-on-surface-dark">Total Kandidat</p>
                 <x-slot name="footer">
                     <x-link href="{{ route('admin.alternatives.index') }}">
@@ -52,7 +56,9 @@
                         Manajemen Periode
                     </h3>
                 </x-slot>
-                <p class="text-on-surface-strong dark:text-on-surface-dark-strong text-3xl font-bold">2</p>
+                <p class="text-on-surface-strong dark:text-on-surface-dark-strong text-3xl font-bold">
+                    {{ $dashboardData->periodsCount }}
+                </p>
                 <p class="text-on-surface dark:text-on-surface-dark">Total Periode Seleksi</p>
                 <x-slot name="footer">
                     <x-link href="{{ route('admin.periods.index') }}">

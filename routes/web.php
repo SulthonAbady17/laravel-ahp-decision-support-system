@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AlternativeController;
 use App\Http\Controllers\Admin\CriterionController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PeriodController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
@@ -50,7 +51,7 @@ Route::middleware('auth')->group(function () { // Ini akan kita aktifkan nanti
     // ==================
     Route::prefix('admin')->name('admin.')->group(function () {
 
-        Route::get('/dashboard', fn() => view('admin.dashboard'))->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/results', fn() => view('admin.results'))->name('results');
 
         // CRUD Kriteria

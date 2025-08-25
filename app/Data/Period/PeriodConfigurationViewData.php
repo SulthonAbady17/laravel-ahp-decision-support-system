@@ -7,11 +7,10 @@ use Illuminate\Support\Collection;
 class PeriodConfigurationViewData
 {
     /**
-     * @param \App\Data\Period\PeriodViewData $period
-     * @param \Illuminate\Support\Collection<int, \App\Data\Criterion\CriterionDropdownData> $allCriteria
-     * @param \Illuminate\Support\Collection<int, \App\Data\Alternative\AlternativeDropdownData> $allAlternatives
-     * @param \Illuminate\Support\Collection<int, int> $selectedCriteriaIds
-     * @param \Illuminate\Support\Collection<int, int> $selectedAlternativesIds
+     * @param  \Illuminate\Support\Collection<int, \App\Data\Criterion\CriterionDropdownData>  $allCriteria
+     * @param  \Illuminate\Support\Collection<int, \App\Data\Alternative\AlternativeDropdownData>  $allAlternatives
+     * @param  \Illuminate\Support\Collection<int, int>  $selectedCriteriaIds
+     * @param  \Illuminate\Support\Collection<int, int>  $selectedAlternativesIds
      */
     public function __construct(
         public readonly PeriodViewData $period,

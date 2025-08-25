@@ -17,7 +17,8 @@ class AlternativeRepository
     public function getAllForIndex(): Collection
     {
         $alternatives = Alternative::select('id', 'name', 'details')->get();
-        return $alternatives->map(fn(Alternative $alt) => AlternativeViewData::fromModel($alt));
+
+        return $alternatives->map(fn (Alternative $alt) => AlternativeViewData::fromModel($alt));
     }
 
     /**
@@ -26,7 +27,8 @@ class AlternativeRepository
     public function getAllForDropdown(): Collection
     {
         $alternatives = Alternative::select('id', 'name')->get();
-        return $alternatives->map(fn(Alternative $alt) => AlternativeDropdownData::fromModel($alt));
+
+        return $alternatives->map(fn (Alternative $alt) => AlternativeDropdownData::fromModel($alt));
     }
 
     /**

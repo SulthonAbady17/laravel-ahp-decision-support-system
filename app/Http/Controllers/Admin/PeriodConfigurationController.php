@@ -9,7 +9,6 @@ use App\Http\Requests\Admin\UpdatePeriodConfigurationRequest;
 use App\Models\Period;
 use App\Repositories\AlternativeRepository;
 use App\Repositories\CriterionRepository;
-use Illuminate\Http\Request;
 
 class PeriodConfigurationController extends Controller
 {

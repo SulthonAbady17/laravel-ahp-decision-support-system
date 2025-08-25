@@ -14,6 +14,6 @@ class Criterion extends Model
 
     public function periods(): BelongsToMany
     {
-        return $this->belongsToMany(Period::class, 'period_criterion');
+        return $this->belongsToMany(Period::class, 'period_criterion', 'criterion_id', 'selection_period_id');
     }
 }

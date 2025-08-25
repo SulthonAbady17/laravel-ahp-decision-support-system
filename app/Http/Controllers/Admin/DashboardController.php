@@ -8,7 +8,6 @@ use App\Models\Alternative;
 use App\Models\Criterion;
 use App\Models\Period;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {

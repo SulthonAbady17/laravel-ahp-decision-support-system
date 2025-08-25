@@ -23,7 +23,7 @@ class UserRepository
             ->latest()
             ->get();
 
-        return $users->map(fn(User $user) => UserViewData::fromModel($user));
+        return $users->map(fn (User $user) => UserViewData::fromModel($user));
     }
 
     /**

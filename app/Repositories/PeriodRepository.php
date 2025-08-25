@@ -17,7 +17,7 @@ class PeriodRepository
     {
         $periods = Period::select('id', 'name', 'start_date', 'end_date', 'status')->latest()->get();
 
-        return $periods->map(fn(Period $period) => PeriodViewData::fromModel($period));
+        return $periods->map(fn (Period $period) => PeriodViewData::fromModel($period));
     }
 
     /**

@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Data\Period\PeriodEditData;
-use App\Data\Period\PeriodViewData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StorePeriodRequest;
 use App\Http\Requests\Admin\UpdatePeriodRequest;
 use App\Models\Period;
 use App\Repositories\PeriodRepository;
-use Illuminate\Http\Request;
 
 class PeriodController extends Controller
 {

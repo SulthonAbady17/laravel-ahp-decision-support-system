@@ -15,7 +15,7 @@ class CriterionRepository
     {
         $criteria = Criterion::select('id', 'name', 'description')->get();
 
-        return $criteria->map(fn($criterion) => CriterionViewData::fromModel($criterion));
+        return $criteria->map(fn ($criterion) => CriterionViewData::fromModel($criterion));
     }
 
     public function create(CriterionCreateData $data): Criterion
@@ -30,7 +30,7 @@ class CriterionRepository
     {
         $criteria = Criterion::select('id', 'name')->get();
 
-        return $criteria->map(fn($criterion) => CriterionDropdownData::fromModel($criterion));
+        return $criteria->map(fn ($criterion) => CriterionDropdownData::fromModel($criterion));
     }
 
     public function update(Criterion $criterion, CriterionUpdateData $data): bool

@@ -17,7 +17,7 @@
             </x-slot>
 
             @if (session('success'))
-                <x-alert class="mb-4" intent="success">
+                <x-alert :dismissible="true" class="mb-4" intent="success">
                     {{ session('success') }}
                 </x-alert>
             @endif
@@ -34,17 +34,19 @@
                 <x-slot name="body">
                     @forelse ($periods as $period)
                         <tr class="hover:bg-surface-alt/50 dark:hover:bg-surface-dark-alt/50">
-                            <th class="text-on-surface-strong dark:text-on-surface-dark-strong p-4 font-medium"
+                            <th class="text-on-surface-strong dark:text-on-surface-dark-strong whitespace-nowrap p-4 font-medium"
                                 scope="row">
                                 {{ $period->name }}
                             </th>
-                            <td class="p-4">{{ $period->startDateFormatted ?? '-' }}</td>
-                            <td class="p-4">{{ $period->endDateFormatted ?? '-' }}</td>
+                            <td class="whitespace-nowrap p-4">{{ $period->startDateFormatted ?? '-' }}</td>
+                            <td class="whitespace-nowrap p-4">{{ $period->endDateFormatted ?? '-' }}</td>
                             <td class="p-4">
                                 <x-status :intent="$period->status">{{ ucfirst($period->status) }}</x-status>
                             </td>
-                            <td class="p-4 text-right">
-                                <x-link :href="route('admin.periods.edit', $period->id)">Edit</x-link>
+                            <td class="whitespace-nowrap p-4 text-right">
+                                <x-link :route="['admin.periods.configure', $period->id]">Konfigurasi</x-link>
+                                <span class="text-outline dark:text-outline-dark mx-1">|</span>
+                                <x-link :route="['admin.periods.edit', $period->id]">Edit</x-link>
                                 <span class="text-outline dark:text-outline-dark mx-1">|</span>
                                 <form action="{{ route('admin.periods.destroy', $period->id) }}" class="inline"
                                     method="POST"
@@ -61,7 +63,9 @@
                         </tr>
                     @empty
                         <tr>
-                            <td class="p-4 text-center" colspan="5">Belum ada data periode.</td>
+                            <td class="p-4 text-center" colspan="5">
+                                Belum ada data periode.
+                            </td>
                         </tr>
                     @endforelse
                 </x-slot>

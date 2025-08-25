@@ -17,6 +17,6 @@ class Alternative extends Model
 
     public function periods(): BelongsToMany
     {
-        return $this->belongsToMany(Period::class, 'period_alternative');
+        return $this->belongsToMany(Period::class, 'period_alternative', 'alternative_id', 'selection_period_id');
     }
 }

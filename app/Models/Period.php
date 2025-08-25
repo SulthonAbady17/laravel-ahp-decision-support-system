@@ -21,11 +21,11 @@ class Period extends Model
 
     public function criteria(): BelongsToMany
     {
-        return $this->belongsToMany(Criterion::class, 'period_criterion');
+        return $this->belongsToMany(Criterion::class, 'period_criterion', 'selection_period_id', 'criterion_id');
     }
 
     public function alternatives(): BelongsToMany
     {
-        return $this->belongsToMany(Alternative::class, 'period_alternative');
+        return $this->belongsToMany(Alternative::class, 'period_alternative', 'selection_period_id', 'alternative_id');
     }
 }

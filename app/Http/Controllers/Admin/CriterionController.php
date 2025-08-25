@@ -8,7 +8,6 @@ use App\Http\Requests\Admin\StoreCriterionRequest;
 use App\Http\Requests\Admin\UpdateCriterionRequest;
 use App\Models\Criterion;
 use App\Repositories\CriterionRepository;
-use Illuminate\Http\Request;
 
 class CriterionController extends Controller
 {

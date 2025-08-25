@@ -8,5 +8,6 @@ class DashboardData
         public readonly int $criteriaCount,
         public readonly int $alternativesCount,
         public readonly int $periodsCount,
+        public readonly int $usersCount,
     ) {}
 }

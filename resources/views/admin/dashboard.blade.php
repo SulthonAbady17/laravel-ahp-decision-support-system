@@ -14,7 +14,7 @@
         </div>
 
         {{-- Grid untuk menampilkan ringkasan data --}}
-        <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
 
             <x-card>
                 <x-slot name="header">
@@ -63,6 +63,23 @@
                 <x-slot name="footer">
                     <x-link href="{{ route('admin.periods.index') }}">
                         Kelola Periode &rarr;
+                    </x-link>
+                </x-slot>
+            </x-card>
+
+            <x-card>
+                <x-slot name="header">
+                    <h3 class="text-on-surface-strong dark:text-on-surface-dark-strong font-semibold">
+                        Manajemen User
+                    </h3>
+                </x-slot>
+                <p class="text-on-surface-strong dark:text-on-surface-dark-strong text-3xl font-bold">
+                    {{ $dashboardData->usersCount }}
+                </p>
+                <p class="text-on-surface dark:text-on-surface-dark">Total Pengguna</p>
+                <x-slot name="footer">
+                    <x-link :route="'admin.users.index'">
+                        Kelola User &rarr;
                     </x-link>
                 </x-slot>
             </x-card>

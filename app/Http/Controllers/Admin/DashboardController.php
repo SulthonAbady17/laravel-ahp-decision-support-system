@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Alternative;
 use App\Models\Criterion;
 use App\Models\Period;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -16,7 +17,8 @@ class DashboardController extends Controller
         $dashboardData = new DashboardData(
             criteriaCount: Criterion::count(),
             alternativesCount: Alternative::count(),
-            periodsCount: Period::count()
+            periodsCount: Period::count(),
+            usersCount: User::count(),
         );
 
         return view('admin.dashboard', compact('dashboardData'));

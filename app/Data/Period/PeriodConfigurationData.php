@@ -2,23 +2,22 @@
 
 namespace App\Data\Period;
 
-use App\Models\Period;
 use Illuminate\Support\Collection;
 
-class PeriodConfigurationData
+class PeriodConfigurationViewData
 {
     /**
-     * @param \App\Models\Period $period
+     * @param \App\Data\Period\PeriodViewData $period
      * @param \Illuminate\Support\Collection<int, \App\Data\Criterion\CriterionDropdownData> $allCriteria
      * @param \Illuminate\Support\Collection<int, \App\Data\Alternative\AlternativeDropdownData> $allAlternatives
-     * @param array<int> $selectedCriteriaIds
-     * @param array<int> $selectedAlternativesIds
+     * @param \Illuminate\Support\Collection<int, int> $selectedCriteriaIds
+     * @param \Illuminate\Support\Collection<int, int> $selectedAlternativesIds
      */
     public function __construct(
-        public readonly Period $period,
+        public readonly PeriodViewData $period,
         public readonly Collection $allCriteria,
         public readonly Collection $allAlternatives,
-        public readonly array $selectedCriteriaIds,
-        public readonly array $selectedAlternativesIds,
+        public readonly Collection $selectedCriteriaIds,
+        public readonly Collection $selectedAlternativesIds,
     ) {}
 }

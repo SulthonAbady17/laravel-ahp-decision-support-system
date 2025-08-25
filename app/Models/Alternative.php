@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Alternative extends Model
 {
@@ -13,4 +14,9 @@ class Alternative extends Model
         'name',
         'details',
     ];
+
+    public function periods(): BelongsToMany
+    {
+        return $this->belongsToMany(Period::class, 'period_alternative');
+    }
 }

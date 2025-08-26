@@ -12,7 +12,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $activePeriodModel = Period::where('status', 'actiive')->first();
+        $activePeriodModel = Period::where('status', 'active')->first();
 
         $dashboardData = new DashboardData(
             activePeriod: $activePeriodModel ? PeriodViewData::fromModel($activePeriodModel) : null,

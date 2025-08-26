@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\PeriodController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Member\DashboardController as MemberDashboardController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -37,7 +38,7 @@ Route::middleware('auth')->group(function () { // Ini akan kita aktifkan nanti
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
     // Route untuk profil pengguna
-    Route::get('/profile', fn () => view('profile.edit'))->name('profile.edit');
+    Route::get('/profile', fn() => view('profile.edit'))->name('profile.edit');
 
     // Dashboard umum yang akan mengarahkan berdasarkan role
     Route::get('/dashboard', function () {
@@ -54,7 +55,7 @@ Route::middleware('auth')->group(function () { // Ini akan kita aktifkan nanti
     Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-        Route::get('/results', fn () => view('admin.results'))->name('results');
+        Route::get('/results', fn() => view('admin.results'))->name('results');
 
         // CRUD Kriteria
         Route::resource('criteria', CriterionController::class);
@@ -77,12 +78,12 @@ Route::middleware('auth')->group(function () { // Ini akan kita aktifkan nanti
     // ==================
     Route::prefix('member')->name('member.')->group(function () {
 
-        Route::get('/dashboard', fn () => view('member.dashboard'))->name('dashboard');
-        Route::get('/complete', fn () => view('member.complete'))->name('complete');
-        Route::get('/results', fn () => view('member.results'))->name('results');
+        Route::get('/dashboard', [MemberDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/complete', fn() => view('member.complete'))->name('complete');
+        Route::get('/results', fn() => view('member.results'))->name('results');
 
         // Proses Perbandingan
-        Route::get('/comparisons/criteria', fn () => view('member.comparisons.criteria'))->name('comparisons.criteria');
-        Route::get('/comparisons/alternatives', fn () => view('member.comparisons.alternatives'))->name('comparisons.alternatives');
+        Route::get('/comparisons/criteria', fn() => view('member.comparisons.criteria'))->name('comparisons.criteria');
+        Route::get('/comparisons/alternatives', fn() => view('member.comparisons.alternatives'))->name('comparisons.alternatives');
     });
 }); // Penutup untuk middleware('auth')

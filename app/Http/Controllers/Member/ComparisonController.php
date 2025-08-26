@@ -72,7 +72,8 @@ class ComparisonController extends Controller
         $period = Period::with('criteria:id,name', 'alternatives:id,name')
             ->find($comparisonData['period_id']);
 
-        $currentCriterion = $period->criteria->first();
+        $currentCriterionId = $request->query('criterion', $period->criteria->first()->id);
+        $currentCriterion = $period->criteria->find($currentCriterionId);
 
         $saatyOptions = [
             ['value' => '9', 'label' => '9 - Mutlak Lebih Penting'],
@@ -96,31 +97,39 @@ class ComparisonController extends Controller
 
     public function storeAlternatives(StoreAlternativeComparisonRequest $request)
     {
-        $comparisonData = $request->session()->get('comparison_date', []);
+        // 1. PERBAIKAN: Gunakan kunci 'comparison_data' yang benar
+        $comparisonData = $request->session()->get('comparison_data', []);
 
+        // 2. Validasi data baru
         $criterionId = $request->validated('criterion_id');
         $comparisons = $request->validated('comparisons', []);
 
+        // 3. Siapkan array untuk data perbandingan alternatif
         if (!isset($comparisonData['alternative_comparisons'])) {
             $comparisonData['alternative_comparisons'] = [];
         }
 
+        // 4. Gabungkan data perbandingan alternatif yang lama dengan yang baru
         $comparisonData['alternative_comparisons'] = array_merge(
             $comparisonData['alternative_comparisons'],
             $this->formatAlternativesComparisons($comparisons, $criterionId)
         );
 
+        // 5. Simpan kembali data yang sudah lengkap ke session
         $request->session()->put('comparison_data', $comparisonData);
 
-        $period = Period::with('criteria:id,name', 'alternatives:id,name')->find($comparisonData['period_id']);
+        // 6. Sekarang, $comparisonData['period_id'] pasti ada.
+        $period = Period::with('criteria:id')->find($comparisonData['period_id']);
         $allCriteriaIds = $period->criteria->pluck('id');
 
-        $completedCriteriaIds = collect($comparisonData['alternative_comparisons'])->pluck('criterionId')->unique();
+        $completedCriteriaIds = collect($comparisonData['alternative_comparisons'])->pluck('criterion_id')->unique();
+        // dd($comparisonData['alternative_comparisons']);
 
         $nextCriterionId = $allCriteriaIds->diff($completedCriteriaIds)->first();
 
         if ($nextCriterionId) {
-            return redirect()->route('member.comparisons.alternatives.create', ['criterion_id' => $nextCriterionId]);
+            // PERBAIKAN: Kirim parameter dengan nama 'criterion' agar sesuai dengan method createAlternatives
+            return redirect()->route('member.comparisons.alternatives.create', ['criterion' => $nextCriterionId]);
         } else {
             return redirect()->route('member.comparisons.finalize');
         }
@@ -152,7 +161,7 @@ class ComparisonController extends Controller
                 item1Id: $item['item1_id'],
                 item2Id: $item['item2_id'],
                 value: $item['value'],
-                criterionId: $item['criterionId']
+                criterionId: $item['criterion_id']
             );
         }
 

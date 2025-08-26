@@ -26,7 +26,7 @@
     @endphp
 
     <x-page-content maxWidth="5xl">
-        <form action="{{ route('member.comparisons.store') }}" method="POST">
+        <form action="{{ route('member.comparisons.criteria.store') }}" method="POST">
             @csrf
             <x-card>
                 <x-slot name="header">

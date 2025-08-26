@@ -9,7 +9,7 @@
     @endphp
 
     <x-page-content maxWidth="5xl">
-        <form action="#" method="POST">
+        <form action="{{ route('member.comparisons.alternatives.store') }}" method="POST">
             @csrf
             <x-card>
                 <x-slot name="header">
@@ -24,8 +24,6 @@
                 </x-slot>
 
                 <div>
-                    {{-- Di aplikasi nyata, form ini akan submit ke method controller berikutnya --}}
-                    <input name="period_id" type="hidden" value="{{ $period->id }}">
                     <input name="criterion_id" type="hidden" value="{{ $currentCriterion->id }}">
 
                     <x-table>
@@ -54,7 +52,7 @@
                                                     <select
                                                         class="rounded-radius border-outline bg-surface-alt dark:bg-surface-dark-alt/50 text-on-surface dark:text-on-surface-dark w-full appearance-none border px-4 py-2 text-sm"
                                                         id="comp-{{ $key }}"
-                                                        name="comparison_alt_{{ $currentCriterion->id }}[{{ $rowAlternative->id }}][{{ $colAlternative->id }}]"
+                                                        name="comparisons[{{ $key }}][value]"
                                                         onchange="updateReciprocal('{{ $rowAlternative->id }}', '{{ $colAlternative->id }}')">
                                                         @foreach ($saatyOptions as $option)
                                                             <option {{ $option['value'] == '1' ? 'selected' : '' }}
@@ -63,6 +61,10 @@
                                                             </option>
                                                         @endforeach
                                                     </select>
+                                                    <input name="comparisons[{{ $key }}][item1_id]" type="hidden"
+                                                        value="{{ $rowAlternative->id }}">
+                                                    <input name="comparisons[{{ $key }}][item2_id]" type="hidden"
+                                                        value="{{ $colAlternative->id }}">
                                                 </div>
                                             @else
                                                 @php $key = $rowAlternative->id . '_' . $colAlternative->id; @endphp
@@ -104,7 +106,7 @@
 
 @push('scripts')
     <script>
-        const items = @json($alternatives); // PENTING: Ganti menjadi $alternatives
+        const items = @json($alternatives);
         const itemIds = items.map(c => c.id);
         const n = items.length;
         const randomIndex = {

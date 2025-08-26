@@ -48,13 +48,46 @@ class ComparisonController extends Controller
         ]);
     }
 
-    public function store(StoreCriteriaComparisonRequest $request)
+    public function storeCriteria(StoreCriteriaComparisonRequest $request)
     {
-        $request->session()->put('comparison_date', [
+        $request->session()->put('comparison_data', [
             'period_id' => $request->validated('period_id'),
             'criteria_comparisons' => $request->validated('criteria_comparisons'),
         ]);
 
         return redirect()->route('member.comparisons.alternatives.create');
+    }
+
+    public function createAlternatives(Request $request)
+    {
+        $comparisonData = $request->session()->get('comparison_data');
+
+        if (!$comparisonData) {
+            return redirect()->route('member.comparisons.create');
+        }
+
+        $period = Period::with('criteria:id,name', 'alternatives:id,name')
+            ->find($comparisonData['period_id']);
+
+        $currentCriterion = $period->criteria->first();
+
+        $saatyOptions = [
+            ['value' => '9', 'label' => '9 - Mutlak Lebih Penting'],
+            ['value' => '7', 'label' => '7 - Sangat Lebih Penting'],
+            ['value' => '5', 'label' => '5 - Lebih Penting'],
+            ['value' => '3', 'label' => '3 - Cukup Lebih Penting'],
+            ['value' => '1', 'label' => '1 - Sama Penting'],
+            ['value' => '1/3', 'label' => '1/3 - Cukup Kurang Penting'],
+            ['value' => '1/5', 'label' => '1/5 - Kurang Penting'],
+            ['value' => '1/7', 'label' => '1/7 - Sangat Kurang Penting'],
+            ['value' => '1/9', 'label' => '1/9 - Mutlak Kurang Penting'],
+        ];
+
+        return view('member.comparisons.alternatives', [
+            'period' => $period,
+            'alternatives' => $period->alternatives,
+            'currentCriterion' => $currentCriterion,
+            'saatyOptions' => $saatyOptions,
+        ]);
     }
 }

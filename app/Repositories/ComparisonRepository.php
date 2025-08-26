@@ -38,7 +38,7 @@ class ComparisonRepository
             }, $allComparisons);
 
             // Simpan semua data sekaligus dengan satu query.
-            ComparisonInputs::insert($dataToInsert);
+            ComparisonInput::insert($dataToInsert);
         });
     }
 

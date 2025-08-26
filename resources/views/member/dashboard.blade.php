@@ -6,6 +6,7 @@
     <x-page-content>
 
         @if ($data->activePeriod)
+            {{-- Skenario 1: ADA Periode Seleksi yang Aktif --}}
             <x-card>
                 <x-slot name="header">
                     <h2 class="text-on-surface-strong dark:text-on-surface-dark-strong text-xl font-semibold leading-tight">
@@ -23,13 +24,14 @@
                         Anda untuk menentukan ketua selanjutnya.
                     </p>
                     <div class="mt-6">
-                        <x-button-link :route="'member.comparisons.criteria'" size="lg">
+                        <x-button-link :route="'member.comparisons.create'" size="lg">
                             Mulai Isi Penilaian
                         </x-button-link>
                     </div>
                 </div>
             </x-card>
         @else
+            {{-- Skenario 2: TIDAK ADA Periode Seleksi yang Aktif --}}
             <x-card>
                 <div class="py-8 text-center">
                     <h3 class="text-on-surface-strong dark:text-on-surface-dark-strong text-xl font-semibold">

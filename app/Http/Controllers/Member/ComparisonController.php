@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Member\StoreComparisonRequest;
+use App\Http\Requests\Member\StoreCriteriaComparisonRequest;
 use App\Models\Period;
 use App\Repositories\ComparisonRepository;
 use Illuminate\Http\Request;
@@ -47,13 +48,13 @@ class ComparisonController extends Controller
         ]);
     }
 
-    public function store(StoreComparisonRequest $request)
+    public function store(StoreCriteriaComparisonRequest $request)
     {
-        $this->comparisonRepository->storeForUser(
-            $request->toDto(),
-            $request->user()
-        );
+        $request->session()->put('comparison_date', [
+            'period_id' => $request->validated('period_id'),
+            'criteria_comparisons' => $request->validated('criteria_comparisons'),
+        ]);
 
-        return redirect()->route('member.complete')->with('success', 'Penilaian Anda telah berhasil disimpan.');
+        return redirect()->route('member.comparisons.alternatives.create');
     }
 }

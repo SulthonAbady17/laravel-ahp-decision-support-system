@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\PeriodController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Member\ComparisonController;
 use App\Http\Controllers\Member\DashboardController as MemberDashboardController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -79,11 +80,14 @@ Route::middleware('auth')->group(function () { // Ini akan kita aktifkan nanti
     Route::prefix('member')->name('member.')->group(function () {
 
         Route::get('/dashboard', [MemberDashboardController::class, 'index'])->name('dashboard');
-        Route::get('/complete', fn() => view('member.complete'))->name('complete');
-        Route::get('/results', fn() => view('member.results'))->name('results');
+        Route::get('/comparisons', [ComparisonController::class, 'create'])->name('comparisons.create');
+        Route::post('/comparisons', [ComparisonController::class, 'store'])->name('comparisons.store');
 
-        // Proses Perbandingan
-        Route::get('/comparisons/criteria', fn() => view('member.comparisons.criteria'))->name('comparisons.criteria');
-        Route::get('/comparisons/alternatives', fn() => view('member.comparisons.alternatives'))->name('comparisons.alternatives');
+        // Route::get('/complete', fn() => view('member.complete'))->name('complete');
+        // Route::get('/results', fn() => view('member.results'))->name('results');
+
+        // // Proses Perbandingan
+        // Route::get('/comparisons/criteria', fn() => view('member.comparisons.criteria'))->name('comparisons.criteria');
+        // Route::get('/comparisons/alternatives', fn() => view('member.comparisons.alternatives'))->name('comparisons.alternatives');
     });
 }); // Penutup untuk middleware('auth')

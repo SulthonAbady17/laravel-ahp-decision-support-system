@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Member\StoreAlternativeComparisonRequest;
 use App\Http\Requests\Member\StoreComparisonRequest;
 use App\Http\Requests\Member\StoreCriteriaComparisonRequest;
 use App\Models\Period;
@@ -89,5 +90,52 @@ class ComparisonController extends Controller
             'currentCriterion' => $currentCriterion,
             'saatyOptions' => $saatyOptions,
         ]);
+    }
+
+    public function storeAlternatives(StoreAlternativeComparisonRequest $request)
+    {
+        $comparisonData = $request->session()->get('comparison_date', []);
+
+        $criterionId = $request->validated('criterion_id');
+        $comparisons = $request->validated('comparisons', []);
+
+        if (!isset($comparisonData['alternative_comparisons'])) {
+            $comparisonData['alternative_comparisons'] = [];
+        }
+
+        $comparisonData['alternative_comparisons'] = array_merge(
+            $comparisonData['alternative_comparisons'],
+            $this->formatAlternativesComparisons($comparisons, $criterionId)
+        );
+
+        $request->session()->put('comparison_data', $comparisonData);
+
+        $period = Period::with('criteria:id,name', 'alternatives:id,name')->find($comparisonData['period_id']);
+        $allCriteriaIds = $period->criteria->pluck('id');
+
+        $completedCriteriaIds = collect($comparisonData['alternative_comparisons'])->pluck('criterionId')->unique();
+
+        $nextCriterionId = $allCriteriaIds->diff($completedCriteriaIds)->first();
+
+        if ($nextCriterionId) {
+            return redirect()->route('member.comparisons.alternatives.create', ['criterion_id' => $nextCriterionId]);
+        } else {
+            return redirect()->route('member.comparisons.finalize');
+        }
+    }
+
+    private function formatAlternativesComparisons(array $comparisons, int $criterionId): array
+    {
+        $formatted = [];
+        foreach ($comparisons as $comparison) {
+            $formatted[] = [
+                'item1_id' => $comparison['item1_id'],
+                'item2_id' => $comparison['item2_id'],
+                'value' => $comparison['value'],
+                'criterion_id' => $criterionId,
+            ];
+        }
+
+        return $formatted;
     }
 }

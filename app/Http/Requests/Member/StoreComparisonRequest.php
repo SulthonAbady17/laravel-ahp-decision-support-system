@@ -42,7 +42,7 @@ class StoreComparisonRequest extends FormRequest
         ];
     }
 
-    public function toDto()
+    public function toDto(): StoreComparisonData
     {
         $criteriaComparisons = [];
         foreach ($this->validated('criteria_comparisons', []) as $item) {

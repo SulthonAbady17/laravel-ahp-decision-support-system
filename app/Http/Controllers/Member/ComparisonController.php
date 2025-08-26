@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Member;
 
+use App\Data\Comparison\ComparisonItemData;
+use App\Data\Comparison\StoreComparisonData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Member\StoreAlternativeComparisonRequest;
 use App\Http\Requests\Member\StoreComparisonRequest;
@@ -122,6 +124,52 @@ class ComparisonController extends Controller
         } else {
             return redirect()->route('member.comparisons.finalize');
         }
+    }
+
+    public function finalize(Request $request)
+    {
+        // 1. Ambil semua data yang terkumpul dari session
+        $sessionData = $request->session()->get('comparison_data');
+
+        // Jika tidak ada data, kembalikan ke awal
+        if (!$sessionData) {
+            return redirect()->route('member.comparisons.create');
+        }
+
+        // 2. Ubah data dari session menjadi DTO yang rapi
+        $criteriaComparisons = [];
+        foreach ($sessionData['criteria_comparisons'] ?? [] as $item) {
+            $criteriaComparisons[] = new ComparisonItemData(
+                item1Id: $item['item1_id'],
+                item2Id: $item['item2_id'],
+                value: $item['value']
+            );
+        }
+
+        $alternativeComparisons = [];
+        foreach ($sessionData['alternative_comparisons'] ?? [] as $item) {
+            $alternativeComparisons[] = new ComparisonItemData(
+                item1Id: $item['item1_id'],
+                item2Id: $item['item2_id'],
+                value: $item['value'],
+                criterionId: $item['criterionId']
+            );
+        }
+
+        $finalDto = new StoreComparisonData(
+            periodId: $sessionData['period_id'],
+            criteriaComparisons: $criteriaComparisons,
+            alternativeComparisons: $alternativeComparisons
+        );
+
+        // 3. Panggil repository untuk menyimpan DTO ke database
+        $this->comparisonRepository->storeForUser($finalDto, $request->user());
+
+        // 4. Hapus data dari session setelah berhasil disimpan
+        $request->session()->forget('comparison_data');
+
+        // 5. Arahkan ke halaman selesai
+        return redirect()->route('member.complete')->with('success', 'Penilaian Anda telah berhasil disimpan.');
     }
 
     private function formatAlternativesComparisons(array $comparisons, int $criterionId): array

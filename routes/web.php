@@ -80,9 +80,15 @@ Route::middleware('auth')->group(function () { // Ini akan kita aktifkan nanti
     Route::prefix('member')->name('member.')->group(function () {
 
         Route::get('/dashboard', [MemberDashboardController::class, 'index'])->name('dashboard');
+
+        // Alur Perbandingan
         Route::get('/comparisons', [ComparisonController::class, 'create'])->name('comparisons.create');
-        Route::post('/comparisons/criteria', [ComparisonController::class, 'storeCriteria'])->name('comparisons.store');
+        Route::post('/comparisons/criteria', [ComparisonController::class, 'storeCriteria'])->name('comparisons.criteria.store');
+
+        // ROUTE BARU
         Route::get('/comparisons/alternatives', [ComparisonController::class, 'createAlternatives'])->name('comparisons.alternatives.create');
+        Route::post('/comparisons/alternatives', [ComparisonController::class, 'storeAlternatives'])->name('comparisons.alternatives.store');
+        Route::get('/comparisons/finalize', [ComparisonController::class, 'finalize'])->name('comparisons.finalize');
 
         // Route::get('/complete', fn() => view('member.complete'))->name('complete');
         // Route::get('/results', fn() => view('member.results'))->name('results');

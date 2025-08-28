@@ -90,11 +90,6 @@ Route::middleware('auth')->group(function () { // Ini akan kita aktifkan nanti
         Route::post('/comparisons/alternatives', [ComparisonController::class, 'storeAlternatives'])->name('comparisons.alternatives.store');
         Route::get('/comparisons/finalize', [ComparisonController::class, 'finalize'])->name('comparisons.finalize');
 
-        // Route::get('/complete', fn() => view('member.complete'))->name('complete');
-        // Route::get('/results', fn() => view('member.results'))->name('results');
-
-        // // Proses Perbandingan
-        // Route::get('/comparisons/criteria', fn() => view('member.comparisons.criteria'))->name('comparisons.criteria');
-        // Route::get('/comparisons/alternatives', fn() => view('member.comparisons.alternatives'))->name('comparisons.alternatives');
+        Route::get('/complete', fn() => view('member.complete'))->name('complete');
     });
-}); // Penutup untuk middleware('auth')
+});

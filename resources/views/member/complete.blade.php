@@ -17,12 +17,21 @@
                 <h3 class="text-on-surface-strong dark:text-on-surface-dark-strong mt-5 text-2xl font-semibold">
                     Terima Kasih!
                 </h3>
-                <p class="text-on-surface dark:text-on-surface-dark mt-2">
-                    Penilaian Anda telah berhasil kami rekam. Hasil akhir akan diumumkan setelah periode penilaian ditutup
-                    oleh Admin.
-                </p>
+
+                {{-- Menampilkan pesan sukses dari session --}}
+                @if (session('success'))
+                    <p class="text-on-surface dark:text-on-surface-dark mt-2">
+                        {{ session('success') }}
+                    </p>
+                @else
+                    <p class="text-on-surface dark:text-on-surface-dark mt-2">
+                        Penilaian Anda telah berhasil kami rekam. Hasil akhir akan diumumkan setelah periode penilaian
+                        ditutup oleh Admin.
+                    </p>
+                @endif
+
                 <div class="mt-6">
-                    <x-link :route="'dashboard'">
+                    <x-link :route="'member.dashboard'">
                         Kembali ke Dashboard
                     </x-link>
                 </div>

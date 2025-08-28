@@ -6,7 +6,6 @@ use App\Data\Comparison\ComparisonItemData;
 use App\Data\Comparison\StoreComparisonData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Member\StoreAlternativeComparisonRequest;
-use App\Http\Requests\Member\StoreComparisonRequest;
 use App\Http\Requests\Member\StoreCriteriaComparisonRequest;
 use App\Models\Period;
 use App\Repositories\ComparisonRepository;
@@ -23,11 +22,11 @@ class ComparisonController extends Controller
         $activePeriod = Period::where('status', 'active')
             ->with([
                 'criteria:id,name',
-                'alternatives:id,name'
+                'alternatives:id,name',
             ])
             ->first();
 
-        if (!$activePeriod) {
+        if (! $activePeriod) {
             return redirect()->route('member.dashboard')->with('error', 'Saat ini tidak ada periode penilaian yang aktif.');
         }
 
@@ -65,7 +64,7 @@ class ComparisonController extends Controller
     {
         $comparisonData = $request->session()->get('comparison_data');
 
-        if (!$comparisonData) {
+        if (! $comparisonData) {
             return redirect()->route('member.comparisons.create');
         }
 
@@ -105,7 +104,7 @@ class ComparisonController extends Controller
         $comparisons = $request->validated('comparisons', []);
 
         // 3. Siapkan array untuk data perbandingan alternatif
-        if (!isset($comparisonData['alternative_comparisons'])) {
+        if (! isset($comparisonData['alternative_comparisons'])) {
             $comparisonData['alternative_comparisons'] = [];
         }
 
@@ -141,7 +140,7 @@ class ComparisonController extends Controller
         $sessionData = $request->session()->get('comparison_data');
 
         // Jika tidak ada data, kembalikan ke awal
-        if (!$sessionData) {
+        if (! $sessionData) {
             return redirect()->route('member.comparisons.create');
         }
 

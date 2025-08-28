@@ -34,6 +34,7 @@ class ComparisonRepository
                 $item['selection_period_id'] = $data->periodId;
                 $item['created_at'] = now();
                 $item['updated_at'] = now();
+
                 return $item;
             }, $allComparisons);
 
@@ -57,6 +58,7 @@ class ComparisonRepository
                 'value' => $this->parseValueForStorage($item->value),
             ];
         }
+
         return $prepared;
     }
 
@@ -68,6 +70,7 @@ class ComparisonRepository
         if (str_contains($value, '/')) {
             return (int) explode('/', $value)[1];
         }
+
         return (int) $value;
     }
 }

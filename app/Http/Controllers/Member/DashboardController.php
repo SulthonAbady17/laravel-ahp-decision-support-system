@@ -6,7 +6,6 @@ use App\Data\Member\DashboardData;
 use App\Data\Period\PeriodViewData;
 use App\Http\Controllers\Controller;
 use App\Models\Period;
-use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {

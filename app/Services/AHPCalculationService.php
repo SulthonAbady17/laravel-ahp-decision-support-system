@@ -8,6 +8,8 @@ use Illuminate\Support\Collection;
 
 class AHPCalculationService
 {
+    private const RANDOM_INDEX = [1 => 0, 2 => 0, 3 => 0.58, 4 => 0.90, 5 => 1.12, 6 => 1.24, 7 => 1.32, 8 => 1.41, 9 => 1.45, 10 => 1.49];
+
     public function __construct(
         private readonly ComparisonRepository $comparisonRepository
     ) {}
@@ -17,7 +19,6 @@ class AHPCalculationService
      */
     public function calculateForPeriod(Period $period): void
     {
-        // 1. Ambil semua data penilaian dari repository.
         $allInputs = $this->comparisonRepository->getAllPeriod($period->id);
 
         if ($allInputs->isEmpty()) {
@@ -27,21 +28,77 @@ class AHPCalculationService
         $criteriaIds = $period->criteria()->pluck('id');
         $alternativeIds = $period->alternatives()->pluck('id');
 
-        // 2. Lakukan agregasi dengan Rata-rata Geometrik.
+        // 1. Agregasi Matriks Kriteria
         $criteriaInputs = $allInputs->where('comparison_type', 'criterion');
-        $aggregatedCriterianMatrix = $this->aggregateMatrix($criteriaInputs, $criteriaIds);
+        $aggregatedCriteriaMatrix = $this->aggregateMatrix($criteriaInputs, $criteriaIds);
 
-        // 3. Lakukan perhitungan AHP.
-        $aggreagatedAlternativeMatrices = [];
+        // 2. Hitung bobot dan CR untuk Kriteria
+        $criteriaResult = $this->calculateAhpFromMatrix($aggregatedCriteriaMatrix);
+        $criteriaWeights = $criteriaResult['priority_vector'];
+        $criteriaConsistencyRatio = $criteriaResult['consistency_ratio'];
+
+        // 3. Agregasi & Hitung bobot untuk setiap Matriks Alternatif
+        $alternativeWeights = [];
         foreach ($criteriaIds as $criterionId) {
-            $alternativeInputs = $allInputs
-                ->where('comparison_type', 'alternative')
-                ->where('criterion_id', $criterionId);
-
-            $aggregatedCriterianMatrix = $this->aggregateMatrix($alternativeInputs, $alternativeIds);
+            $alternativeInputs = $allInputs->where('comparison_type', 'alternative')->where('criterion_id', $criterionId);
+            $aggregatedMatrix = $this->aggregateMatrix($alternativeInputs, $alternativeIds);
+            $alternativeResult = $this->calculateAhpFromMatrix($aggregatedMatrix);
+            $alternativeWeights[$criterionId] = $alternativeResult['priority_vector'];
         }
 
-        // 4. Simpan hasilnya ke database.
+        // 4. Hitung Skor Akhir
+        $finalScores = [];
+        foreach ($alternativeIds as $alternativeId) {
+            $score = 0;
+            foreach ($criteriaIds as $criterionId) {
+                $score += ($alternativeWeights[$criterionId][$alternativeId] ?? 0) * ($criteriaWeights[$criterionId] ?? 0);
+            }
+
+            $finalScores[$alternativeId] = $score;
+        }
+
+        asort($finalScores);
+    }
+
+    public function calculateAhpFromMatrix(array $matrix): array
+    {
+        $n = count($matrix);
+        if ($n === 0) {
+            return ['priority_vector' => [], 'consistency_ratio' => 0];
+        }
+
+        $columnSums = [];
+        foreach ($matrix as $row) {
+            foreach ($row as $colKey => $value) {
+                $columnSums[$colKey] = ($columnSums[$colKey] ?? 0) + $value;
+            }
+        }
+
+        $normalizedMatrix = [];
+        foreach ($matrix as $rowKey => $row) {
+            foreach ($row as $colKey => $value) {
+                $normalizedMatrix[$rowKey][$colKey] = $value / $columnSums[$colKey];
+            }
+        }
+
+        $priorityVector = [];
+        foreach ($normalizedMatrix as $rowKey => $row) {
+            $priorityVector[$rowKey] = array_sum($row) / $n;
+        }
+
+        $lambdaMax = 0;
+        foreach ($columnSums as $key => $sum) {
+            $lambdaMax += $sum * $priorityVector[$key];
+        }
+
+        $consistencyIndex = ($n > 1) ? ($lambdaMax - $n) / ($n - 1) : 0;
+        $randomIndex = self::RANDOM_INDEX[$n] ?? 1.49;
+        $consistencyRatio = ($randomIndex > 0) ? $consistencyIndex / $randomIndex : 0;
+
+        return [
+            'priority_vector' => $priorityVector,
+            'consistency_ratio' => $consistencyRatio
+        ];
     }
 
     /**

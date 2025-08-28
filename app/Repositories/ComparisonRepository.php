@@ -5,10 +5,16 @@ namespace App\Repositories;
 use App\Data\Comparison\StoreComparisonData;
 use App\Models\ComparisonInput;
 use App\Models\User;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class ComparisonRepository
 {
+    public function getAllPeriod(int $periodId): Collection
+    {
+        return ComparisonInput::where('selection_period_id', $periodId)->get();
+    }
+
     /**
      * Menyimpan seluruh set data perbandingan dari seorang pengguna untuk satu periode.
      */

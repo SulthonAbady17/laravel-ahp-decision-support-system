@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AlternativeController;
 use App\Http\Controllers\Admin\CriterionController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PeriodCalculationController;
 use App\Http\Controllers\Admin\PeriodConfigurationController;
 use App\Http\Controllers\Admin\PeriodController;
 use App\Http\Controllers\Admin\UserController;
@@ -72,6 +73,8 @@ Route::middleware('auth')->group(function () { // Ini akan kita aktifkan nanti
 
         Route::get('periods/{period}/configure', [PeriodConfigurationController::class, 'edit'])->name('periods.configure');
         Route::put('periods/{period}/configure', [PeriodConfigurationController::class, 'update'])->name('periods.configure.update');
+
+        Route::post('/periods/{period}/calculate', PeriodCalculationController::class)->name('periods.calculate');
     });
 
     // ==================

@@ -15,6 +15,7 @@
     $intentClasses = [
         'primary' => 'text-primary dark:text-primary-dark',
         'danger' => 'text-danger dark:text-danger-dark',
+        'success' => 'text-success dark:text-success-dark',
         // ... warna lain ...
     ][$intent];
 

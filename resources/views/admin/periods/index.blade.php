@@ -44,21 +44,23 @@
                                 <x-status :intent="$period->status">{{ ucfirst($period->status) }}</x-status>
                             </td>
                             <td class="whitespace-nowrap p-4 text-right">
-                                <x-link :route="['admin.periods.configure', $period->id]">Konfigurasi</x-link>
+                                @if ($period->status === 'active')
+                                    <form action="{{ route('admin.periods.calculate', $period->id) }}" class="inline"
+                                        method="POST"
+                                        onsubmit="return confirm('Apakah Anda yakin ingin menyelesaikan dan menghitung hasil periode ini?');">
+                                        @csrf
+                                        <button type="submit">
+                                            <x-link href="#" intent="success">Hitung & Selesaikan</x-link>
+                                        </button>
+                                    </form>
+                                @elseif($period->status === 'completed')
+                                    <x-link href="#">Lihat Hasil</x-link>
+                                @else
+                                    <x-link :route="['admin.periods.configure', $period->id]">Konfigurasi</x-link>
+                                @endif
+
                                 <span class="text-outline dark:text-outline-dark mx-1">|</span>
                                 <x-link :route="['admin.periods.edit', $period->id]">Edit</x-link>
-                                <span class="text-outline dark:text-outline-dark mx-1">|</span>
-                                <form action="{{ route('admin.periods.destroy', $period->id) }}" class="inline"
-                                    method="POST"
-                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus periode ini?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button
-                                        class="text-danger dark:text-danger font-medium underline-offset-2 hover:underline focus:underline focus:outline-none"
-                                        type="submit">
-                                        Hapus
-                                    </button>
-                                </form>
                             </td>
                         </tr>
                     @empty

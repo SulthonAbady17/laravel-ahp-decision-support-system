@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Result extends Model
 {
@@ -15,4 +16,9 @@ class Result extends Model
         'score',
         'rank',
     ];
+
+    public function alternative(): BelongsTo
+    {
+        return $this->belongsTo(Alternative::class);
+    }
 }

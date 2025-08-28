@@ -12,9 +12,11 @@ class DashboardController extends Controller
     public function index()
     {
         $activePeriodModel = Period::where('status', 'active')->first();
+        $latestCompletedPeriodModel = Period::where('status', 'completed')->first();
 
         $dashboardData = new DashboardData(
             activePeriod: $activePeriodModel ? PeriodViewData::fromModel($activePeriodModel) : null,
+            latestCompletedPeriod: $latestCompletedPeriodModel ? PeriodViewData::fromModel($latestCompletedPeriodModel) : null
         );
 
         return view('member.dashboard', ['data' => $dashboardData]);

@@ -10,7 +10,7 @@ class ResultRepository
 {
     public function getResultsForPeriod(int $periodId): Collection
     {
-        $results = Result::with('alternative:id, name')
+        $results = Result::with('alternative:id,name')
             ->where('period_id', $periodId)
             ->orderBy('rank', 'asc')
             ->get();

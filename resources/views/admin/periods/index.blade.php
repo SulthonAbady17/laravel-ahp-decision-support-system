@@ -49,12 +49,14 @@
                                         method="POST"
                                         onsubmit="return confirm('Apakah Anda yakin ingin menyelesaikan dan menghitung hasil periode ini?');">
                                         @csrf
-                                        <button type="submit">
-                                            <x-link href="#" intent="success">Hitung & Selesaikan</x-link>
+                                        <button
+                                            class="text-success dark:text-success-dark font-medium underline-offset-2 hover:underline focus:underline focus:outline-none"
+                                            type="submit">
+                                            Hitung & Selesaikan
                                         </button>
                                     </form>
                                 @elseif($period->status === 'completed')
-                                    <x-link href="#">Lihat Hasil</x-link>
+                                    <x-link :route="['admin.results', $period->id]">Lihat Hasil</x-link>
                                 @else
                                     <x-link :route="['admin.periods.configure', $period->id]">Konfigurasi</x-link>
                                 @endif

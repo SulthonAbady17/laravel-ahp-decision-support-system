@@ -2,15 +2,17 @@
 
 use App\Http\Controllers\Admin\AlternativeController;
 use App\Http\Controllers\Admin\CriterionController;
-use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\PeriodCalculationController;
 use App\Http\Controllers\Admin\PeriodConfigurationController;
 use App\Http\Controllers\Admin\PeriodController;
+use App\Http\Controllers\Admin\ResultController as AdminResultController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Member\ComparisonController;
 use App\Http\Controllers\Member\DashboardController as MemberDashboardController;
+use App\Http\Controllers\Member\ResultController as MemberResultController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -56,8 +58,7 @@ Route::middleware('auth')->group(function () { // Ini akan kita aktifkan nanti
     // ==================
     Route::prefix('admin')->name('admin.')->group(function () {
 
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-        Route::get('/results', fn() => view('admin.results'))->name('results');
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
         // CRUD Kriteria
         Route::resource('criteria', CriterionController::class);
@@ -75,6 +76,8 @@ Route::middleware('auth')->group(function () { // Ini akan kita aktifkan nanti
         Route::put('periods/{period}/configure', [PeriodConfigurationController::class, 'update'])->name('periods.configure.update');
 
         Route::post('/periods/{period}/calculate', PeriodCalculationController::class)->name('periods.calculate');
+
+        Route::get('/results/{period}', [AdminResultController::class, 'index'])->name('results');
     });
 
     // ==================
@@ -94,5 +97,7 @@ Route::middleware('auth')->group(function () { // Ini akan kita aktifkan nanti
         Route::get('/comparisons/finalize', [ComparisonController::class, 'finalize'])->name('comparisons.finalize');
 
         Route::get('/complete', fn() => view('member.complete'))->name('complete');
+
+        Route::get('/results', [MemberResultController::class, 'index'])->name('results');
     });
 });

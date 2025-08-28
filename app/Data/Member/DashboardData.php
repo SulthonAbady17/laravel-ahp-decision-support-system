@@ -7,6 +7,7 @@ use App\Data\Period\PeriodViewData;
 class DashboardData
 {
     public function __construct(
-        public readonly ?PeriodViewData $activePeriod, // Bisa null jika tidak ada periode aktif
+        public readonly ?PeriodViewData $activePeriod,
+        public readonly ?PeriodViewData $latestCompletedPeriod
     ) {}
 }

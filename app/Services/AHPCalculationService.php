@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Period;
+use App\Models\Result;
 use App\Repositories\ComparisonRepository;
 use Illuminate\Support\Collection;
 
@@ -58,6 +59,22 @@ class AHPCalculationService
         }
 
         asort($finalScores);
+
+        Result::where('period_id', $period->id)->delete();
+
+        $rank = 1;
+        foreach ($finalScores as $alternativeId => $score) {
+            Result::create([
+                'period_id' => $period->id,
+                'alternative_id' => $alternativeId,
+                'score' => $score,
+                'rank' => $rank,
+            ]);
+
+            $rank++;
+        }
+
+        $period->update(['status' => 'completed']);
     }
 
     public function calculateAhpFromMatrix(array $matrix): array
